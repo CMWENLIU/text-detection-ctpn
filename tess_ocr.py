@@ -17,7 +17,7 @@ from random import randint
 #import matplotlib.pyplot as plt
 #import pillowfight
 #import numpy as np
-#import pandas as pd
+import pandas as pd
 import sys
 import pyocr
 import pyocr.builders
@@ -61,7 +61,7 @@ i = 1
 for f in files_grabbed:
     try:
       result = data_helpers.ext_txt(f, langs, dic, tool)
-    except ValueError:
+    except:
       print('Error for: ' + f)
     time_str = datetime.datetime.now().isoformat()
     if i % 10 == 0 or i > (len(files_grabbed)//10)*10:

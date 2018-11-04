@@ -37,7 +37,7 @@ def ext_txt(imgf, languages, record, tool):
     record['file'] = imgf
     for l in languages:
         txt = tool.image_to_string(Image.open(imgf), lang=l, builder=pyocr.builders.TextBuilder())
-        clean = process_raw(txt)
+        clean = process_raw(txt).encode('utf-8')
         record[l] = clean
     return record
 
