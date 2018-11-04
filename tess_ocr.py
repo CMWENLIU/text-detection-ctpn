@@ -49,7 +49,7 @@ files_grabbed = [] #create list for all files
 # Load all type of available image files
 ext = ['jpg', 'png','bmp', 'jpeg','JPG', 'PNG', 'BMP', 'JPEG']
 
-for root, dirs, files in os.walk("images/"):
+for root, dirs, files in os.walk("data/demo/"):
     for file in files:
         if file.endswith(tuple(ext)):
              files_grabbed.append(os.path.join(root, file))
@@ -91,3 +91,22 @@ with open('result.html', 'w') as outf:
         for line in ft:
             outf.write(line)
 print('All images have been recognized and saved to result.html')
+
+'''
+from PIL import Image
+ 
+def crop(image_path, coords, saved_location):
+    """
+    @param image_path: The path to the image to edit
+    @param coords: A tuple of x/y coordinates (x1, y1, x2, y2)
+    @param saved_location: Path to save the cropped image
+    """
+    image_obj = Image.open(image_path)
+    cropped_image = image_obj.crop(coords)
+    cropped_image.save(saved_location)
+    cropped_image.show()
+
+if __name__ == '__main__':
+    image = '0.jpg'
+    crop(image, (25,167,89,178), 'cropped.jpg')
+'''
