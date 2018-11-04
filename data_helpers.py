@@ -9,7 +9,6 @@ import pyocr.builders
 import PIL
 from PIL import Image
 
-
 def clean_str(string):
 
     string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
@@ -47,7 +46,15 @@ def similarity(a, b):
     inter_len = len(list(set(tokens_a) & set(tokens_b)))
     ratio = inter_len/min(len(tokens_a), len(tokens_b))
     return ratio
-
+def image_crop(imagename):
+    crop_file = 'data/result/res_' + os.path.splitext(imagename)[0] + '.txt'
+    crop_list = []
+    with open(crop_file, 'r') as crops:
+      for line in crops:
+        crop = line.split(',')
+        crop = map(int, crop)
+        crop_list.append(crop)
+    return crop_list  
 def filter_images(result, filters):
 		with open(filters) as todelist:
 				content = todelist.readlines()
@@ -67,6 +74,8 @@ def filter_images(result, filters):
 						count += 1
 						print(row['file'])
 						#os.remove(row['file'])		
+
+
 #for s in content:
 #						if row['eng'].startswith(s):
 #								print(s)
@@ -79,6 +88,7 @@ def filter_images(result, filters):
 		#print(dedf.count())
 
 #filter_images('result.csv', 'todelete.txt')
+
 
 
     

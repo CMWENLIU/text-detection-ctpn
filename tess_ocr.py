@@ -106,7 +106,12 @@ def crop(image_path, coords, saved_location):
     cropped_image.save(saved_location)
     cropped_image.show()
 
+
 if __name__ == '__main__':
     image = '0.jpg'
-    crop(image, (25,167,89,178), 'cropped.jpg')
+    s = '25,167,89,178'
+    w = s.split(',')
+    print (len(w))
+    b = int(s.replace(',',''))
+    #crop(image, b, 'cropped.jpg')
 '''
