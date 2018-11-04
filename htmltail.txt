@@ -1,0 +1,12 @@
+<script type="text/javascript">
+var changesize = function(param)
+{
+    if (param.style.height != "550px") {
+        param.style.height = "550px";
+    } else{
+    param.style.height = "100px";
+    }
+};
+</script>
+</body>
+</html>
