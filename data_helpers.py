@@ -58,7 +58,7 @@ def image_crop(imagepath):
         crop_list.append(crop)
     for idx, val in enumerate(crop_list):
       cropped_image = image_obj.crop(val)
-      cropped_image.save('crop_img/' + os.path.splitext(imagename)[0] + '_' + str(idx) + '.jpg')
+      cropped_image.save('data/results/' + os.path.splitext(imagename)[0] + '_cro_pped_' + str(idx) + '.jpg')
         
 def filter_images(result, filters):
 		with open(filters) as todelist:

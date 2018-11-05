@@ -44,7 +44,8 @@ all_res = []
 dic = {'file': '-'}
 for l in langs:
     dic[l] = '-'
-files_grabbed = [] #create list for all files
+files_ori = [] #create list for origin files
+all_files = [] #create list for all images including cropped
 
 # Load all type of available image files
 ext = ['jpg', 'png','bmp', 'jpeg','JPG', 'PNG', 'BMP', 'JPEG']
@@ -52,24 +53,30 @@ ext = ['jpg', 'png','bmp', 'jpeg','JPG', 'PNG', 'BMP', 'JPEG']
 for root, dirs, files in os.walk("data/demo/"):
     for file in files:
         if file.endswith(tuple(ext)):
-             files_grabbed.append(os.path.join(root, file))
-print ('There are ' + str(len(files_grabbed)) + ' images loaded')
+             files_ori.append(os.path.join(root, file))
+print ('There are ' + str(len(files_ori)) + ' origin images loaded')
 
 #next to save cropped images:
-for f in files_grabbed:
+for f in files_ori:
     data_helpers.image_crop(f)
+
+for root, dirs, files in os.walk("data/results/"):
+    for file in files:
+        if file.endswith(tuple(ext)):
+             all_files.append(os.path.join(root, file))
+print ('There are ' + str(len(all_files)) + ' images loaded totally')
 
 #Following we recognize all images and write to database.
 print('Following we recognize all images and write all text to database.')
 i = 1
-for f in files_grabbed:
+for f in sorted(all_files):
     try:
       result = data_helpers.ext_txt(f, langs, dic, tool)
     except:
       print('Error for: ' + f)
     time_str = datetime.datetime.now().isoformat()
-    if i % 10 == 0 or i > (len(files_grabbed)//10)*10:
-        print("{}: {}/{} processed".format(time_str, i, len(files_grabbed),))
+    if i % 10 == 0 or i > (len(files_ori)//10)*10:
+        print("{}: {}/{} processed".format(time_str, i, len(all_files),))
     all_res.append(result.copy())
     i += 1
 
@@ -83,7 +90,8 @@ with open('result.html', 'w') as outf:
         for line in fh:
             outf.write(line)
     imghead = '<img src="'
-    imgtail = '" onclick="changesize(this)">'
+    #imgtail = '" onclick="changesize(this)">'
+    imgtail = '">'
     for item in all_res:
         outf.write(imghead + item['file'] + imgtail)
         outf.write('<p>--English:' + item['eng'] + '</p>' + '\n')

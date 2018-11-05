@@ -1,4 +1,7 @@
 <!DOCTYPE html>
 <html>
+<!-
 <head> <style> img{cursor: pointer; border: 1px solid; height: 100px} </style> </head>
+->
+<head> <style> img{cursor: pointer; border: 1px solid;} </style> </head>
 <body>
