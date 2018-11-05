@@ -46,15 +46,20 @@ def similarity(a, b):
     inter_len = len(list(set(tokens_a) & set(tokens_b)))
     ratio = inter_len/min(len(tokens_a), len(tokens_b))
     return ratio
-def image_crop(imagename):
-    crop_file = 'data/result/res_' + os.path.splitext(imagename)[0] + '.txt'
+def image_crop(imagepath):
+    imagename = os.path.basename(imagepath)
+    crop_file = 'data/results/res_' + os.path.splitext(imagename)[0] + '.txt'
     crop_list = []
+    image_obj = Image.open(imagepath)
     with open(crop_file, 'r') as crops:
       for line in crops:
         crop = line.split(',')
         crop = map(int, crop)
         crop_list.append(crop)
-    return crop_list  
+    for idx, val in enumerate(crop_list):
+      cropped_image = image_obj.crop(val)
+      cropped_image.save('crop_img/' + os.path.splitext(imagename)[0] + '_' + str(idx) + '.jpg')
+        
 def filter_images(result, filters):
 		with open(filters) as todelist:
 				content = todelist.readlines()
@@ -74,7 +79,6 @@ def filter_images(result, filters):
 						count += 1
 						print(row['file'])
 						#os.remove(row['file'])		
-
 
 #for s in content:
 #						if row['eng'].startswith(s):

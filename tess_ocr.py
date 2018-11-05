@@ -55,6 +55,10 @@ for root, dirs, files in os.walk("data/demo/"):
              files_grabbed.append(os.path.join(root, file))
 print ('There are ' + str(len(files_grabbed)) + ' images loaded')
 
+#next to save cropped images:
+for f in files_grabbed:
+    data_helpers.image_crop(f)
+
 #Following we recognize all images and write to database.
 print('Following we recognize all images and write all text to database.')
 i = 1
