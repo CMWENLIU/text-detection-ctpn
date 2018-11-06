@@ -83,7 +83,7 @@ for f in sorted(all_files):
 
 df = pd.DataFrame(all_res)
 #df.to_csv('result.csv', header=True, columns=['file', 'eng', 'fra', 'spa', 'chi_sim'], index=False)
-df.to_csv('result.csv', header=True, columns=['file', 'eng', 'fra'], index=False)
+df.to_csv('result.csv', header=True, columns=['file', 'eng'], index=False)
 print('All images have been recognized and saved to result.csv')
 
 with open('result.html', 'w') as outf:
@@ -97,9 +97,9 @@ with open('result.html', 'w') as outf:
         outf.write(imghead + item['file'] + imgtail)
         outf.write('<p>--file:' + os.path.basename(item['file']) + '</p>')
         outf.write('<p>--English:' + item['eng'] + '</p>')
-        outf.write('<p>--French:' + item['fra']+ '</p>')
-        #outf.write('<p>--Spanish:' + item['spa'] + '</p>' + '\n')
-        #outf.write('<p>--Chinese:' + item['chi_sim'] + '</p>' + '\n')
+        #outf.write('<p>--French:' + item['fra']+ '</p>')
+        #outf.write('<p>--Spanish:' + item['spa'] + '</p>')
+        #outf.write('<p>--Chinese:' + item['chi_sim'] + '</p>')
         outf.write('<hr>' + '\n')
     with open('htmltail.txt', 'r') as ft:
         for line in ft:

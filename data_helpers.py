@@ -56,10 +56,12 @@ def image_crop(imagepath):
         crop = line.split(',')
         crop = map(int, crop)
         crop_list.append(crop)
-    newc = crop_list.sort(key=lambda x: x[3]-x[1]), reverse=True)
-    for idx, val in enumerate(newc):
-      cropped_image = image_obj.crop(val)
-      cropped_image.save('data/results/' + os.path.splitext(imagename)[0] + '_cro_pped_' + str(idx+10) + '.jpg')
+    crop_list = sorted(crop_list, key=lambda x: x[3]-x[1])
+    crop_list.reverse()
+    for idx, val in enumerate(crop_list[:9]):
+      if (val[2]-val[0]) > 3*(val[3]-val[1]):
+        cropped_image = image_obj.crop(val)
+        cropped_image.save('data/results/' + os.path.splitext(imagename)[0] + '_cro_pped_' + str(idx+10) + '.jpg')
         
 def filter_images(result, filters):
 		with open(filters) as todelist:
