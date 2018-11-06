@@ -67,7 +67,7 @@ def compare_gt(result):
     df = pd.read_csv(result)
     fnames = df['file'].tolist()
     content = df['eng'].tolist()
-    newfnames, tessract, rec_tess = [],[],[]
+    newfnames, gt, tessract, rec_tess = [],[],[],[]
     index = 0
     s = ''
     for idx, val in enumerate(fnames):
@@ -77,11 +77,14 @@ def compare_gt(result):
           s = ''
         newfnames.append(val)
         tessract.append(content[idx])
+        with open('data/demo/' + os.path.basename(val)+'.txt', 'r') as gtf:
+          gt.append(gtf.read())
       else:
         s += (str(content[idx])+' ')
     rec_tess.append(s)
     odf = pd.DataFrame()
     odf['file'] = newfnames
+    odf['ground_truth'] = gt 
     odf['tess'] = tessract
     odf['rec_tess'] = rec_tess
     odf.to_csv('compare_gt.csv', encoding='utf_8_sig', index=False)
