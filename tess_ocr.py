@@ -83,7 +83,7 @@ for f in sorted(all_files):
 
 df = pd.DataFrame(all_res)
 #df.to_csv('result.csv', header=True, columns=['file', 'eng', 'fra', 'spa', 'chi_sim'], index=False)
-df.to_csv('result.csv', header=True, columns=['file', 'eng'], index=False)
+df.to_csv('result.csv', encoding='utf_8_sig', header=True, columns=['file', 'eng'], index=False)
 print('All images have been recognized and saved to result.csv')
 
 with open('result.html', 'w') as outf:

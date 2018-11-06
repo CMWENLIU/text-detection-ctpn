@@ -62,7 +62,30 @@ def image_crop(imagepath):
       if (val[2]-val[0]) > 3*(val[3]-val[1]):
         cropped_image = image_obj.crop(val)
         cropped_image.save('data/results/' + os.path.splitext(imagename)[0] + '_cro_pped_' + str(idx+10) + '.jpg')
-        
+
+def compare_gt(result):
+    df = pd.read_csv(result)
+    fnames = df['file'].tolist()
+    content = df['eng'].tolist()
+    newfnames, tessract, rec_tess = [],[],[]
+    index = 0
+    s = ''
+    for idx, val in enumerate(fnames):
+      if '_cro_pped_' not in val:
+        if s!='':
+          rec_tess.append(s)
+          s = ''
+        newfnames.append(val)
+        tessract.append(content[idx])
+      else:
+        s += (str(content[idx])+' ')
+    rec_tess.append(s)
+    odf = pd.DataFrame()
+    odf['file'] = newfnames
+    odf['tess'] = tessract
+    odf['rec_tess'] = rec_tess
+    odf.to_csv('compare_gt.csv', encoding='utf_8_sig', index=False)
+                      
 def filter_images(result, filters):
 		with open(filters) as todelist:
 				content = todelist.readlines()
@@ -96,6 +119,6 @@ def filter_images(result, filters):
 
 #filter_images('result.csv', 'todelete.txt')
 
-
+compare_gt('result.csv')
 
     
