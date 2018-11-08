@@ -8,6 +8,8 @@ import pyocr
 import pyocr.builders
 import PIL
 from PIL import Image
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 def clean_str(string):
 
@@ -67,7 +69,7 @@ def compare_gt(result):
     df = pd.read_csv(result)
     fnames = df['file'].tolist()
     content = df['eng'].tolist()
-    newfnames, gt, tessract, rec_tess = [],[],[],[]
+    newfnames, gt, tessract, rec_tess, tess_score,rec_tess_score= [],[],[],[],[],[]
     index = 0
     s = ''
     for idx, val in enumerate(fnames):
@@ -82,11 +84,19 @@ def compare_gt(result):
       else:
         s += (str(content[idx])+' ')
     rec_tess.append(s)
+    for idx, val in enumerate(gt):
+      print type(val)
+      print idx
+      tess_score.append(str(fuzz.partial_ratio(val, tessract[idx])))
+      rec_tess_score.append(str(fuzz.partial_ratio(val, rec_tess[idx])))
     odf = pd.DataFrame()
     odf['file'] = newfnames
     odf['ground_truth'] = gt 
     odf['tess'] = tessract
+    odf['tess_score'] = tess_score
     odf['rec_tess'] = rec_tess
+    odf['rec_tess_score'] = rec_tess_score
+
     odf.to_csv('compare_gt.csv', encoding='utf_8_sig', index=False)
                       
 def filter_images(result, filters):
