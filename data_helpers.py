@@ -39,7 +39,7 @@ def ext_txt(imgf, languages, record, tool):
     for l in languages:
         txt = tool.image_to_string(Image.open(imgf), lang=l, builder=pyocr.builders.TextBuilder())
         clean = process_raw(txt).encode('utf-8')
-        record[l] = clean
+        record[l] = clean if len(clean)!=0 else 'N/A'
     return record
 
 def similarity(a, b):
@@ -85,17 +85,15 @@ def compare_gt(result):
         s += (str(content[idx])+' ')
     rec_tess.append(s)
     for idx, val in enumerate(gt):
-      print type(val)
-      print idx
-      tess_score.append(str(fuzz.partial_ratio(val, tessract[idx])))
-      rec_tess_score.append(str(fuzz.partial_ratio(val, rec_tess[idx])))
+      print fuzz.partial_ratio(str(tessract[idx]), str(val))
+      print fuzz.partial_ratio(str(rec_tess[idx]), str(val))
     odf = pd.DataFrame()
     odf['file'] = newfnames
     odf['ground_truth'] = gt 
     odf['tess'] = tessract
-    odf['tess_score'] = tess_score
+    #odf['tess_score'] = tess_score
     odf['rec_tess'] = rec_tess
-    odf['rec_tess_score'] = rec_tess_score
+    #odf['rec_tess_score'] = rec_tess_score
 
     odf.to_csv('compare_gt.csv', encoding='utf_8_sig', index=False)
                       
@@ -131,6 +129,7 @@ def filter_images(result, filters):
 		#print(dedf.count())
 
 #filter_images('result.csv', 'todelete.txt')
+
 
 compare_gt('result.csv')
 
